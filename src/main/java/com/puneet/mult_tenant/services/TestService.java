@@ -11,44 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TestService {
+public class TestService extends BaseService {
 
-
-    @Autowired
-    private WorkflowExecutor workflowExecutor;
     public Map<String, Object> getData(String tenant) {
         // Load tenant-specific workflow configuration
-        List<String> workflowSteps = loadWorkflowConfig(tenant);
-
+        List<String> workflowSteps = loadWorkflowConfig(tenant, "getData");
         // Create context for workflow execution
         Map<String, Object> context = createContext(tenant);
-
         // Execute workflow
-        workflowExecutor.execute(workflowSteps, context);
+        getWorkflowExecutor().execute(workflowSteps, context);
 
         // Extract and return the final cart object
         return context;
     }
 
-    private List<String> loadWorkflowConfig(String tenantId) {
-        // Load workflow configuration from database or configuration service
-        // This is a placeholder - implement actual loading logic
-        switch (tenantId){
-            case "AJIO":
-                return List.of("loadCart", "checkWhitelist", "checkInventory", "fetchWalletBalance", "decorateCart");
-            case "RCPL":
-                return List.of("loadCart", "checkWhitelist", "fetchWalletBalance", "checkInventory");
-            default:
-                return List.of("loadCart", "checkWhitelist", "checkInventory", "fetchWalletBalance", "decorateCart");
-        }
 
-    }
 
-    private Map<String, Object> createContext(String tenantId) {
-        Map<String, Object> context = new LinkedHashMap<>();
-        context.put("tenantId", tenantId);
-        return context;
-    }
+
 
     /*@WorkflowStep
     private Map<String, Object> loadCart(Map<String, Object> context) {
