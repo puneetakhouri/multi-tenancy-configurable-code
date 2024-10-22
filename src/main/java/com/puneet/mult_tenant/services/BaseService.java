@@ -25,7 +25,7 @@ public abstract class BaseService implements WorkflowManager {
             case "RCPL":
                 return "getData".equalsIgnoreCase(methodName) ? List.of("loadCart", "checkWhitelist", "fetchWalletBalance", "checkInventory") : Collections.emptyList();
             default:
-                return List.of("loadCart", "checkWhitelist", "checkInventory", "fetchWalletBalance", "decorateCart");
+                return List.of("loadCart", "checkWhitelist", "checkInventory", "fetchWalletBalance", "decorateCartWithPriceInCustomJson");
         }
     }
 
